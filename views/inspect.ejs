@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inspect webhook</title>
+    <style>
+        .call{
+            padding: 0 10px;
+            border: 1px solid;
+            margin-bottom: 10px;
+            background-color: gray;
+        }
+        .call:first-child{
+            background-color: unset !important;
+        }
+    </style>
+</head>
+<body onload="ready('<%= webhookId %>')">
+<h1>Webhook at: <a href="<%=webhookUrl%>" target="_blank"><%=webhookUrl%></a></h1>
+<hr>
+<div id="list-calls">
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    function ready(webhookId) {
+        var socket = io(`/${webhookId}`);
+        const listCalls = document.querySelector("#list-calls");
+        function renderCall(callData) {
+            var newDiv = document.createElement("div");
+            newDiv.className = 'call';
+            newDiv.innerHTML = '<pre>'+JSON.stringify(callData, null, 2)+'</pre>'
+            listCalls.prepend(newDiv)
+        }
+        socket.on('webhook-called', function (data) {
+            renderCall(data)
+        })
+    }
+</script>
+</body>
+</html>
