@@ -47,7 +47,7 @@ app.all('/webhook/:id', bodyParser.json(), bodyParser.raw(), bodyParser.text(), 
     io.of(`/${req.params.id}`).emit('webhook-called', callData);
 }))
 
-server.listen(3000, ()=> {
+server.listen(Number(process.env.PORT) || 3000, ()=> {
     console.log('listen in port 3000')
 });
 
