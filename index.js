@@ -9,6 +9,8 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
+const PORT = Number(process.env.PORT) || 3000;
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -47,8 +49,8 @@ app.all('/webhook/:id', bodyParser.json(), bodyParser.raw(), bodyParser.text(), 
     io.of(`/${req.params.id}`).emit('webhook-called', callData);
 }))
 
-server.listen(Number(process.env.PORT) || 3000, ()=> {
-    console.log('listen in port 3000')
+server.listen(PORT, ()=> {
+    console.log('listen in port', PORT)
 });
 
 io.of('/').on('connection', socket => {
