@@ -25,7 +25,7 @@ app.get('/inspect/:id', (req, res) => {
     });
 });
 
-app.all('/webhook/:id', bodyParser.json(), bodyParser.raw(), bodyParser.text(), bodyParser.urlencoded({extended: true}), ((req, res) => {
+app.use('/webhook/:id', bodyParser.json(), bodyParser.raw(), bodyParser.text(), bodyParser.urlencoded({extended: true}), ((req, res) => {
     const {
         query,
         path,
